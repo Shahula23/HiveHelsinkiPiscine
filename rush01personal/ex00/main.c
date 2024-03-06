@@ -1,0 +1,93 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: niarygin <niarygin@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/24 11:41:40 by niarygin          #+#    #+#             */
+/*   Updated: 2024/02/25 14:37:53 by niarygin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <unistd.h>
+
+int	is_valid_input(int argc, char *str);
+
+// This function print out table to the screen
+void	print_solution(int table[4][4])
+{
+	int		i;
+	int		j;
+	char	c;
+
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			c = table[i][j] + '0';
+			write(1, &c, 1);
+			if (j < 3)
+				write(1, " ", 1);
+			j++;
+		}
+		write(1, "\n", 1);
+		i++;
+	}
+}
+
+// This function fills the table with zeroes
+void	initialize_table(int table[4][4])
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			table[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+}
+
+// This function saves the values from input string to array
+void	store_input_to_array(int provided_numbers[16], char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] >= '0' && str[i] <= '4')
+		{
+			provided_numbers[j] = str[i] - '0';
+			j++;
+		}
+		i++;
+	}
+}
+
+int	main(int argc, char *argv[])
+{
+	int	table[4][4];
+	int	provided_numbers[16];
+
+	if (!is_valid_input(argc, argv[1]))
+	{
+		write(1, "Error\n", 6);
+		return (1);
+	}
+	store_input_to_array(provided_numbers, argv[1]);
+	initialize_table(table);
+	print_solution(table);
+	return (0);
+}

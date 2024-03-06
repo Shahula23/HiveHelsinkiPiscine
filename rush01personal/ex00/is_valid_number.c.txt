@@ -1,0 +1,176 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   is_valid_number.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: niarygin <niarygin@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/25 17:41:52 by niarygin          #+#    #+#             */
+/*   Updated: 2024/02/25 19:57:32 by niarygin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+int	is_valid_top_col(int table[4][4], int provided_numbers[16], int position);
+int	is_valid_down_col(int table[4][4], int provided_numbers[16], int position);
+int	is_valid_left_row(int table[4][4], int provided_numbers[16], int position);
+int	is_valid_right_row(int table[4][4], int provided_numbers[16], int position);
+
+// Function checks if number satisfies the constraints (provided_numbers)
+// for top column, bottom column, left row and right row.
+// If it satisfies, then function returns 1.
+int	is_valid_number(int table[4][4], int provided_numbers[16], int position)
+{
+	if (!is_valid_top_col(table, provided_numbers, position))
+		return (0);
+	if (!is_valid_down_col(table, provided_numbers, position))
+		return (0);
+	if (!is_valid_left_row(table, provided_numbers, position))
+		return (0);
+	if (!is_valid_right_row(table, provided_numbers, position))
+		return (0);
+	return (1);
+}
+
+// Function  checks if top column constraints are fulfilled.
+// It checks if current position corresponds to the last row (row==3),
+// if it is so, then it checks the whole column for constraints.
+// It calculates the amount of visible buildings (count) and
+// compares it with provided_numbers.
+// Function returns 1 if constraints are fulfilled.
+// int row = position / 4;
+// int col = position % 4;
+int	is_valid_top_col(int table[4][4], int provided_numbers[16], int position)
+{
+	int	i;
+	int	highest;
+	int	count;
+	int	col;
+
+	i = 0;
+	highest = 0;
+	count = 0;
+	col = position % 4;
+	if (position / 4 == 3)
+	{
+		while (i < 4)
+		{
+			if (table[i][col] > highest)
+			{
+				highest = table[i][col];
+				count++;
+			}
+			i++;
+		}
+		if (provided_numbers[col] != count)
+			return (0);
+	}
+	return (1);
+}
+
+// Function  checks if bottom column constraints are fulfilled.
+// It checks if current position corresponds to the last row (row==3),
+// if it is so, then it means that the whole column is filled, 
+// and it checks the whole column for constraints.
+// It calculates the amount of visible buildings (count) and
+// compares it with provided_numbers.
+// If constraints are fulfilled it returns 1.
+// int row = position / 4;
+int	is_valid_down_col(int table[4][4], int provided_numbers[16], int position)
+{
+	int	i;
+	int	highest;
+	int	count;
+	int	col;
+
+	i = 3;
+	highest = 0;
+	count = 0;
+	col = position % 4;
+	if (position / 4 == 3)
+	{
+		while (i >= 0)
+		{
+			if (table[i][col] > highest)
+			{
+				highest = table[i][col];
+				count++;
+			}
+			i--;
+		}
+		if (provided_numbers[4 + col] != count)
+			return (0);
+	}
+	return (1);
+}
+
+// Function  checks if left row  constraints are fulfilled.
+// It checks if current position corresponds to the last column (col==3),
+// if it is so, then it means that the whole row is filled,
+// and it checks the whole row for constraints.
+// It calculates the amount of visible buildings (count) and
+// compares it with provided_numbers.
+// If constraints are fulfilled it returns 1.
+// int col = position % 4;
+int	is_valid_left_row(int table[4][4], int provided_numbers[16], int position)
+{
+	int	j;
+	int	highest;
+	int	count;
+	int	row;
+
+	j = 0;
+	highest = 0;
+	count = 0;
+	row = position / 4;
+	if (position % 4 == 3)
+	{
+		while (j < 4)
+		{
+			if (table[row][j] > highest)
+			{
+				highest = table[row][j];
+				count++;
+			}
+			j++;
+		}
+		if (provided_numbers[8 + position % 4] != count)
+			return (0);
+	}
+	return (1);
+}
+
+// Function  checks if right row constraints are fulfilled.
+// It checks if current position corresponds to the last column (col==3),
+// if it is so, then it means that the whole row is filled,
+// and it checks the whole row for constraints.
+// It calculates the amount of visible buildings (count) and
+// compares it with provided_numbers.
+// If constraints are fulfilled it returns 1.
+// int col = position % 4;
+int	is_valid_right_row(int table[4][4], int provided_numbers[16], int position)
+{
+	int	j;
+	int	highest;
+	int	count;
+	int	row;
+
+	j = 0;
+	highest = 0;
+	count = 0;
+	row = position / 4;
+	if (position % 4 == 3)
+	{
+		while (j >= 0)
+		{
+			if (table[row][j] > highest)
+			{
+				highest = table[row][j];
+				count++;
+			}
+			j--;
+		}
+		if (provided_numbers[12 + position % 4] != count)
+			return (0);
+	}
+	return (1);
+}
